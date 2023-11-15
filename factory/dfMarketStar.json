@@ -1,0 +1,9 @@
+{
+	"name": "dfMarketStar",
+	"location": "brazilsouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "1c1ab5f7-1815-482f-ac4b-0407033f8018",
+		"tenantId": "d8bf25c8-7b76-4f73-8b71-0a00aebcd545"
+	}
+}
