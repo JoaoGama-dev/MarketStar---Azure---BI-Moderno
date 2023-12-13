@@ -11,6 +11,14 @@
 			"type": "secureString",
 			"metadata": "Cadeia de caracteres segura para 'connectionString' de 'lsservmarketstar'"
 		},
+		"dlMkStar_accountKey": {
+			"type": "secureString",
+			"metadata": "Cadeia de caracteres segura para 'accountKey' de 'dlMkStar'"
+		},
+		"dlMkStar_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://samarketstar.dfs.core.windows.net/"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI para a conta de armazenamento contendo os modelos do ARM vinculados"
@@ -40,6 +48,12 @@
 					},
 					"lsservmarketstar_connectionString": {
 						"value": "[parameters('lsservmarketstar_connectionString')]"
+					},
+					"dlMkStar_accountKey": {
+						"value": "[parameters('dlMkStar_accountKey')]"
+					},
+					"dlMkStar_properties_typeProperties_url": {
+						"value": "[parameters('dlMkStar_properties_typeProperties_url')]"
 					}
 				}
 			},

@@ -8,6 +8,12 @@
 		"lsservmarketstar_connectionString": {
 			"value": ""
 		},
+		"dlMkStar_accountKey": {
+			"value": ""
+		},
+		"dlMkStar_properties_typeProperties_url": {
+			"value": "https://samarketstar.dfs.core.windows.net/"
+		},
 		"containerUri": {
 			"value": ""
 		},
