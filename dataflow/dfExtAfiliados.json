@@ -15,10 +15,27 @@
 					"name": "srcVendas"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dsExtAfiliadosDestino",
+						"type": "DatasetReference"
+					},
+					"name": "AfiliadoSilver",
+					"description": "Adicionar conjunto de dados do coletor a camada Silver no DataLake",
+					"rejectedDataLinkedService": {
+						"referenceName": "dlMkStar",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
 			"transformations": [
 				{
 					"name": "SelecionarColuna"
+				},
+				{
+					"name": "AgregAuxiliar",
+					"description": "Adicionar colunas agregadas Afiliados"
 				}
 			],
 			"scriptLines": [
@@ -48,7 +65,21 @@
 				"          Afiliado",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> SelecionarColuna"
+				"     skipDuplicateMapOutputs: true) ~> SelecionarColuna",
+				"SelecionarColuna aggregate(groupBy(Afiliado),",
+				"     Contagem = count(Afiliado)) ~> AgregAuxiliar",
+				"AgregAuxiliar sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['Afiliados.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          Afiliado",
+				"     ),",
+				"     partitionBy('hash', 1)) ~> AfiliadoSilver"
 			]
 		}
 	}
