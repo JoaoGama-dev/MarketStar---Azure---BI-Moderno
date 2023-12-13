@@ -16,7 +16,11 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "SelecionarColuna"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          Produto as string,",
@@ -39,7 +43,12 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> srcVendas"
+				"     ignoreNoFilesFound: false) ~> srcVendas",
+				"srcVendas select(mapColumn(",
+				"          Afiliado",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelecionarColuna"
 			]
 		}
 	}
