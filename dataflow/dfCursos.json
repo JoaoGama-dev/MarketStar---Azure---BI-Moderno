@@ -1,0 +1,42 @@
+{
+	"name": "dfCursos",
+	"properties": {
+		"folder": {
+			"name": "1 - Extraction"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsExtCodCursosOrigem",
+						"type": "DatasetReference"
+					},
+					"name": "CodProdutos"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dsExtCursosDestino",
+						"type": "DatasetReference"
+					},
+					"name": "Cursos"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> CodProdutos",
+				"CodProdutos sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Cursos"
+			]
+		}
+	}
+}
