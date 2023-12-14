@@ -15,8 +15,23 @@
 					"name": "Vendas"
 				}
 			],
-			"sinks": [],
-			"transformations": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dsExtTipoPagamentoDestino",
+						"type": "DatasetReference"
+					},
+					"name": "TipoPagamento"
+				}
+			],
+			"transformations": [
+				{
+					"name": "aggAuxliar"
+				},
+				{
+					"name": "SelecionarColuna"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          Produto as string,",
@@ -39,7 +54,26 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> Vendas"
+				"     ignoreNoFilesFound: false) ~> Vendas",
+				"Vendas aggregate(groupBy({Tipo de Pagamento}),",
+				"     Contagem = count({Tipo de Pagamento})) ~> aggAuxliar",
+				"aggAuxliar select(mapColumn(",
+				"          {Tipo de Pagamento}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelecionarColuna",
+				"SelecionarColuna sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Afiliado as string",
+				"     ),",
+				"     partitionFileNames:['TipoPagamento.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> TipoPagamento"
 			]
 		}
 	}
