@@ -1,0 +1,26 @@
+{
+	"name": "dsExtCodCursosOrigem",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlMkStar",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "1 - Extraction"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Cod-Produtos.csv",
+				"fileSystem": "bronze"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
