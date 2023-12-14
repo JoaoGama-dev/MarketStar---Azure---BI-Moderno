@@ -7,13 +7,13 @@
 			"metadata": "Nome do Data Factory",
 			"defaultValue": "dfMarketStar"
 		},
-		"lsservmarketstar_connectionString": {
-			"type": "secureString",
-			"metadata": "Cadeia de caracteres segura para 'connectionString' de 'lsservmarketstar'"
-		},
 		"dlMkStar_accountKey": {
 			"type": "secureString",
 			"metadata": "Cadeia de caracteres segura para 'accountKey' de 'dlMkStar'"
+		},
+		"lsservmarketstar_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadeia de caracteres segura para 'connectionString' de 'lsservmarketstar'"
 		},
 		"dlMkStar_properties_typeProperties_url": {
 			"type": "string",
@@ -25,35 +25,83 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/lsservmarketstar')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/dfExtAfiliados')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('lsservmarketstar_connectionString')]"
-				}
+				"activities": [
+					{
+						"name": "dfExtAfiliados",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfExtAfiliados",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"srcVendas": {},
+									"AfiliadoSilver": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "1 - Extraction"
+				},
+				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfExtAfiliados')]"
+			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dlMkStar')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/dsExtAfiliadosDestino')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "Serviço vinculado DataLake",
+				"linkedServiceName": {
+					"referenceName": "dlMkStar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1 - Extraction"
+				},
 				"annotations": [],
-				"type": "AzureBlobFS",
+				"type": "DelimitedText",
 				"typeProperties": {
-					"url": "[parameters('dlMkStar_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('dlMkStar_accountKey')]"
-					}
-				}
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "silver"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/dlMkStar')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dsExtVendasHotmartSaida')]",
@@ -156,34 +204,35 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dsExtAfiliadosDestino')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/dlMkStar')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "dlMkStar",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "1 - Extraction"
-				},
+				"description": "Serviço vinculado DataLake",
 				"annotations": [],
-				"type": "DelimitedText",
+				"type": "AzureBlobFS",
 				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "silver"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
+					"url": "[parameters('dlMkStar_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('dlMkStar_accountKey')]"
+					}
+				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/dlMkStar')]"
-			]
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/lsservmarketstar')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('lsservmarketstar_connectionString')]"
+				}
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dfExtAfiliados')]",
@@ -279,52 +328,34 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dfExtAfiliados')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/dsExtCodCursosOrigem')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "dfExtAfiliados",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfExtAfiliados",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"srcVendas": {},
-									"AfiliadoSilver": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
+				"linkedServiceName": {
+					"referenceName": "dlMkStar",
+					"type": "LinkedServiceReference"
 				},
 				"folder": {
 					"name": "1 - Extraction"
 				},
-				"annotations": []
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Cod-Produtos.csv",
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfExtAfiliados')]"
+				"[concat(variables('factoryId'), '/linkedServices/dlMkStar')]"
 			]
 		}
 	]

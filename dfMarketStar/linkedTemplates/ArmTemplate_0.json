@@ -7,13 +7,13 @@
 			"metadata": "Nome do Data Factory",
 			"defaultValue": "dfMarketStar"
 		},
-		"lsservmarketstar_connectionString": {
-			"type": "secureString",
-			"metadata": "Cadeia de caracteres segura para 'connectionString' de 'lsservmarketstar'"
-		},
 		"dlMkStar_accountKey": {
 			"type": "secureString",
 			"metadata": "Cadeia de caracteres segura para 'accountKey' de 'dlMkStar'"
+		},
+		"lsservmarketstar_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadeia de caracteres segura para 'connectionString' de 'lsservmarketstar'"
 		},
 		"dlMkStar_properties_typeProperties_url": {
 			"type": "string",
@@ -24,19 +24,6 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/lsservmarketstar')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('lsservmarketstar_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dlMkStar')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -54,6 +41,49 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/lsservmarketstar')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('lsservmarketstar_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dsExtAfiliadosDestino')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dlMkStar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1 - Extraction"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "silver"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/dlMkStar')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dsExtVendasHotmartSaida')]",
@@ -156,7 +186,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dsExtAfiliadosDestino')]",
+			"name": "[concat(parameters('factoryName'), '/dsExtCodCursosOrigem')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -172,7 +202,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileSystem": "silver"
+						"fileName": "Cod-Produtos.csv",
+						"fileSystem": "bronze"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",

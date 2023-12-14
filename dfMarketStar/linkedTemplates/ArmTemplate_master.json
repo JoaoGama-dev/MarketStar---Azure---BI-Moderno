@@ -7,13 +7,13 @@
 			"metadata": "Nome do Data Factory",
 			"defaultValue": "dfMarketStar"
 		},
-		"lsservmarketstar_connectionString": {
-			"type": "secureString",
-			"metadata": "Cadeia de caracteres segura para 'connectionString' de 'lsservmarketstar'"
-		},
 		"dlMkStar_accountKey": {
 			"type": "secureString",
 			"metadata": "Cadeia de caracteres segura para 'accountKey' de 'dlMkStar'"
+		},
+		"lsservmarketstar_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadeia de caracteres segura para 'connectionString' de 'lsservmarketstar'"
 		},
 		"dlMkStar_properties_typeProperties_url": {
 			"type": "string",
@@ -46,11 +46,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"lsservmarketstar_connectionString": {
-						"value": "[parameters('lsservmarketstar_connectionString')]"
-					},
 					"dlMkStar_accountKey": {
 						"value": "[parameters('dlMkStar_accountKey')]"
+					},
+					"lsservmarketstar_connectionString": {
+						"value": "[parameters('lsservmarketstar_connectionString')]"
 					},
 					"dlMkStar_properties_typeProperties_url": {
 						"value": "[parameters('dlMkStar_properties_typeProperties_url')]"

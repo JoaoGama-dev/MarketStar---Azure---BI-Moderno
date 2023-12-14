@@ -5,10 +5,10 @@
 		"factoryName": {
 			"value": "dfMarketStar"
 		},
-		"lsservmarketstar_connectionString": {
+		"dlMkStar_accountKey": {
 			"value": ""
 		},
-		"dlMkStar_accountKey": {
+		"lsservmarketstar_connectionString": {
 			"value": ""
 		},
 		"dlMkStar_properties_typeProperties_url": {
