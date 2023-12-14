@@ -21,7 +21,7 @@
 						"referenceName": "dsExtTipoPagamentoDestino",
 						"type": "DatasetReference"
 					},
-					"name": "TipoPagamento"
+					"name": "TipoPagamentoSilver"
 				}
 			],
 			"transformations": [
@@ -73,7 +73,7 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> TipoPagamento"
+				"     partitionBy('hash', 1)) ~> TipoPagamentoSilver"
 			]
 		}
 	}
