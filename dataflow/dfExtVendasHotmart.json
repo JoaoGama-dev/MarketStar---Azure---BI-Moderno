@@ -1,0 +1,42 @@
+{
+	"name": "dfExtVendasHotmart",
+	"properties": {
+		"folder": {
+			"name": "1 - Extraction"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "VendasHotmart"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dsExtVendasHotmartDestino",
+						"type": "DatasetReference"
+					},
+					"name": "VendasHotMartDestinon"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> VendasHotmart",
+				"VendasHotmart sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Afiliado as string",
+				"     ),",
+				"     partitionFileNames:['vendas.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> VendasHotMartDestinon"
+			]
+		}
+	}
+}
