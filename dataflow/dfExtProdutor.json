@@ -21,7 +21,7 @@
 						"referenceName": "dsExtProdutorDestino",
 						"type": "DatasetReference"
 					},
-					"name": "Status"
+					"name": "produtorSilver"
 				}
 			],
 			"transformations": [
@@ -75,7 +75,7 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> Status"
+				"     partitionBy('hash', 1)) ~> produtorSilver"
 			]
 		}
 	}
