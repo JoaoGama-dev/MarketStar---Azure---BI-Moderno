@@ -1,0 +1,30 @@
+{
+	"name": "dfExtMacroRegiao",
+	"properties": {
+		"folder": {
+			"name": "1 - Extraction"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsExtMacroRegioesOrigem",
+						"type": "DatasetReference"
+					},
+					"name": "MacroRegiaoOrigem"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          Column_1 as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> MacroRegiaoOrigem"
+			]
+		}
+	}
+}
