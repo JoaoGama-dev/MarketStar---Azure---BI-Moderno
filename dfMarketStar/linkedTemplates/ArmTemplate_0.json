@@ -72,6 +72,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "Afiliados.csv",
 						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
@@ -133,6 +134,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "cursos.csv",
 						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
@@ -163,6 +165,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "regioes.csv",
 						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
@@ -229,6 +232,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "Status.csv",
 						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
@@ -264,6 +268,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "TipoPagamento.csv",
 						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
@@ -299,6 +304,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "vendas.csv",
 						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
@@ -434,6 +440,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "produtor.csv",
 						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
