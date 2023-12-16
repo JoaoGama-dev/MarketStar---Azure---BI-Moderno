@@ -324,7 +324,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dsExtVendasHotmartSaida')]",
+			"name": "[concat(parameters('factoryName'), '/dsExtVendasHotmartOrigem')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -522,7 +522,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "dsExtVendasHotmartSaida",
+								"referenceName": "dsExtVendasHotmartOrigem",
 								"type": "DatasetReference"
 							},
 							"name": "srcVendas"
@@ -597,7 +597,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/dsExtVendasHotmartSaida')]",
+				"[concat(variables('factoryId'), '/datasets/dsExtVendasHotmartOrigem')]",
 				"[concat(variables('factoryId'), '/datasets/dsExtAfiliadosDestino')]",
 				"[concat(variables('factoryId'), '/linkedServices/dlMkStar')]"
 			]
@@ -696,7 +696,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "dsExtVendasHotmartSaida",
+								"referenceName": "dsExtVendasHotmartOrigem",
 								"type": "DatasetReference"
 							},
 							"name": "Vendas"
@@ -765,7 +765,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/dsExtVendasHotmartSaida')]",
+				"[concat(variables('factoryId'), '/datasets/dsExtVendasHotmartOrigem')]",
 				"[concat(variables('factoryId'), '/datasets/dsExtStatusDestino')]"
 			]
 		},
@@ -782,7 +782,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "dsExtVendasHotmartSaida",
+								"referenceName": "dsExtVendasHotmartOrigem",
 								"type": "DatasetReference"
 							},
 							"name": "Vendas"
@@ -851,7 +851,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/dsExtVendasHotmartSaida')]",
+				"[concat(variables('factoryId'), '/datasets/dsExtVendasHotmartOrigem')]",
 				"[concat(variables('factoryId'), '/datasets/dsExtTipoPagamentoDestino')]"
 			]
 		},
@@ -868,7 +868,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "dsExtVendasHotmartSaida",
+								"referenceName": "dsExtVendasHotmartOrigem",
 								"type": "DatasetReference"
 							},
 							"name": "VendasHotmart"
@@ -923,7 +923,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/dsExtVendasHotmartSaida')]",
+				"[concat(variables('factoryId'), '/datasets/dsExtVendasHotmartOrigem')]",
 				"[concat(variables('factoryId'), '/datasets/dsExtVendasHotmartDestino')]"
 			]
 		},
@@ -940,7 +940,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "dsExtVendasHotmartSaida",
+								"referenceName": "dsExtVendasHotmartOrigem",
 								"type": "DatasetReference"
 							},
 							"name": "Vendas"
@@ -1011,7 +1011,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/dsExtVendasHotmartSaida')]",
+				"[concat(variables('factoryId'), '/datasets/dsExtVendasHotmartOrigem')]",
 				"[concat(variables('factoryId'), '/datasets/dsExtProdutorDestino')]"
 			]
 		},
