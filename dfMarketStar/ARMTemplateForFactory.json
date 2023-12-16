@@ -880,7 +880,7 @@
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
-					"firstRowAsHeader": false,
+					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
 				"schema": [
@@ -891,6 +891,136 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/dlMkStar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dfExtMacroRegiao')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "1 - Extraction"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "dsExtMacroRegioesOrigem",
+								"type": "DatasetReference"
+							},
+							"name": "MacroRegiaoOrigem"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "dsExtMacroRegiaoDestino",
+								"type": "DatasetReference"
+							},
+							"name": "RegioesSilver"
+						}
+					],
+					"transformations": [
+						{
+							"name": "dddcidadeestado"
+						},
+						{
+							"name": "splitEstadoCidade"
+						},
+						{
+							"name": "RegioesSeparadas"
+						},
+						{
+							"name": "SelecionarColunasFinais"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Column_1 as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> MacroRegiaoOrigem",
+						"MacroRegiaoOrigem derive(dddCidadeEstado = substring(Column_1, 4, 400)) ~> dddcidadeestado",
+						"dddcidadeestado derive(splitdddCidadeEstado = split(dddCidadeEstado,\"–\" )) ~> splitEstadoCidade",
+						"splitEstadoCidade derive(DDD = splitdddCidadeEstado[1],",
+						"          CIDADE = splitdddCidadeEstado[2],",
+						"          ESTADO = splitdddCidadeEstado[3]) ~> RegioesSeparadas",
+						"RegioesSeparadas select(mapColumn(",
+						"          DDD,",
+						"          CIDADE,",
+						"          ESTADO",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelecionarColunasFinais",
+						"SelecionarColunasFinais sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Column_1 as string",
+						"     ),",
+						"     partitionFileNames:['regioes.csv'],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> RegioesSilver"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/dsExtMacroRegioesOrigem')]",
+				"[concat(variables('factoryId'), '/datasets/dsExtMacroRegiaoDestino')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplExtMacroRegioes')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfMacroRegioes",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfExtMacroRegiao",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"MacroRegiaoOrigem": {},
+									"RegioesSilver": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "1 - Extraction"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfExtMacroRegiao')]"
 			]
 		}
 	]
