@@ -91,6 +91,91 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/dfExtProdutor')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "1 - Extraction"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "dsExtVendasHotmartOrigem",
+								"type": "DatasetReference"
+							},
+							"name": "Vendas"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "dsExtProdutorDestino",
+								"type": "DatasetReference"
+							},
+							"name": "produtorSilver"
+						}
+					],
+					"transformations": [
+						{
+							"name": "aggAuxiliar",
+							"description": "Agregação de dados pela produção de colunas 'Contagem' por 'produtor'"
+						},
+						{
+							"name": "SelecionarColuna",
+							"description": "Renomeando aggAuxiliar para SelecionarColuna com as colunas 'Produtor'"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Produto as string,",
+						"          Afiliado as string,",
+						"          {Nome do Produtor} as string,",
+						"          {Documento do Produtor} as string,",
+						"          {Meio de Pagamento} as string,",
+						"          {Preço do Produto} as string,",
+						"          {Preço da Oferta} as string,",
+						"          {Tipo de Pagamento} as string,",
+						"          {Tipo pagamento oferta} as string,",
+						"          Moeda as string,",
+						"          {Número da Parcela} as string,",
+						"          {Recorrência} as string,",
+						"          {Data de Venda} as string,",
+						"          {Data de Confirmação} as string,",
+						"          Status as string,",
+						"          DDD as string,",
+						"          Cidade as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> Vendas",
+						"Vendas aggregate(groupBy({Nome do Produtor}),",
+						"     Contagem = count()) ~> aggAuxiliar",
+						"aggAuxiliar select(mapColumn(",
+						"          {Nome do Produtor}",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelecionarColuna",
+						"SelecionarColuna sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Afiliado as string",
+						"     ),",
+						"     partitionFileNames:['produtor.csv'],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> produtorSilver"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dfExtStatus')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -326,85 +411,58 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dfExtProdutor')]",
+			"name": "[concat(parameters('factoryName'), '/dfsrcAfiliados')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"folder": {
-					"name": "1 - Extraction"
+					"name": "2 - Stage"
 				},
 				"type": "MappingDataFlow",
 				"typeProperties": {
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "dsExtVendasHotmartOrigem",
+								"referenceName": "dsExtAfiliadosDestino",
 								"type": "DatasetReference"
 							},
-							"name": "Vendas"
+							"name": "DLSilver"
 						}
 					],
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "dsExtProdutorDestino",
+								"referenceName": "tblsrcAfiliados",
 								"type": "DatasetReference"
 							},
-							"name": "produtorSilver"
+							"name": "srcDestino"
 						}
 					],
-					"transformations": [
-						{
-							"name": "aggAuxiliar",
-							"description": "Agregação de dados pela produção de colunas 'Contagem' por 'produtor'"
-						},
-						{
-							"name": "SelecionarColuna",
-							"description": "Renomeando aggAuxiliar para SelecionarColuna com as colunas 'Produtor'"
-						}
-					],
+					"transformations": [],
 					"scriptLines": [
 						"source(output(",
-						"          Produto as string,",
-						"          Afiliado as string,",
-						"          {Nome do Produtor} as string,",
-						"          {Documento do Produtor} as string,",
-						"          {Meio de Pagamento} as string,",
-						"          {Preço do Produto} as string,",
-						"          {Preço da Oferta} as string,",
-						"          {Tipo de Pagamento} as string,",
-						"          {Tipo pagamento oferta} as string,",
-						"          Moeda as string,",
-						"          {Número da Parcela} as string,",
-						"          {Recorrência} as string,",
-						"          {Data de Venda} as string,",
-						"          {Data de Confirmação} as string,",
-						"          Status as string,",
-						"          DDD as string,",
-						"          Cidade as string",
+						"          Afiliado as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> Vendas",
-						"Vendas aggregate(groupBy({Nome do Produtor}),",
-						"     Contagem = count()) ~> aggAuxiliar",
-						"aggAuxiliar select(mapColumn(",
-						"          {Nome do Produtor}",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> SelecionarColuna",
-						"SelecionarColuna sink(allowSchemaDrift: true,",
+						"     ignoreNoFilesFound: false) ~> DLSilver",
+						"DLSilver sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          Afiliado as string",
+						"          Id as integer,",
+						"          Nome as string",
 						"     ),",
-						"     partitionFileNames:['produtor.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> produtorSilver"
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          Nome = Afiliado",
+						"     )) ~> srcDestino"
 					]
 				}
 			},
@@ -554,6 +612,55 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pplExtProdutor')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dsExtProdutorDestino",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfExtProdutor",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Vendas": {},
+									"produtorSilver": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "1 - Extraction"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfExtProdutor')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pplExtStatus')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -698,55 +805,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dfExtVendasHotmart')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pplExtProdutor')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dsExtProdutorDestino",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfExtProdutor",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"Vendas": {},
-									"produtorSilver": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "1 - Extraction"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfExtProdutor')]"
 			]
 		}
 	]
