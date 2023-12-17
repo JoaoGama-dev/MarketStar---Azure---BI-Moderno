@@ -50,6 +50,7 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
+				"          BK = Cod,",
 				"          Nome = {Nome Novo}",
 				"     )) ~> srcDestino"
 			]
