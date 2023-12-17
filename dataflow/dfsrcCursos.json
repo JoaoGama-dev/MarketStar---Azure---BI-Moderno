@@ -48,7 +48,10 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> srcDestino"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Nome = {Nome Novo}",
+				"     )) ~> srcDestino"
 			]
 		}
 	}
