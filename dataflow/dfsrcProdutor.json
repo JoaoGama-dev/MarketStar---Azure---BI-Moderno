@@ -1,5 +1,5 @@
 {
-	"name": "dfsrcCursos",
+	"name": "dfsrcProdutor",
 	"properties": {
 		"folder": {
 			"name": "2 - Stage"
@@ -9,7 +9,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "dsExtCursosDestino",
+						"referenceName": "dsExtProdutorDestino",
 						"type": "DatasetReference"
 					},
 					"name": "DLSilver"
@@ -18,7 +18,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "tblsrcCursos",
+						"referenceName": "tblsrcProdutor",
 						"type": "DatasetReference"
 					},
 					"name": "srcDestino"
@@ -27,8 +27,7 @@
 			"transformations": [],
 			"scriptLines": [
 				"source(output(",
-				"          Cod as string,",
-				"          {Nome Novo} as string",
+				"          {Nome do Produtor} as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
@@ -37,7 +36,6 @@
 				"     validateSchema: false,",
 				"     input(",
 				"          Id as integer,",
-				"          BK as string,",
 				"          Nome as string",
 				"     ),",
 				"     deletable:false,",
@@ -50,8 +48,7 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
-				"          BK = Cod,",
-				"          Nome = {Nome Novo}",
+				"          Nome = {Nome do Produtor}",
 				"     )) ~> srcDestino"
 			]
 		}
