@@ -1,5 +1,5 @@
 {
-	"name": "dfsrcStatus",
+	"name": "dfsrcTipoPagamento",
 	"properties": {
 		"folder": {
 			"name": "2 - Stage"
@@ -9,7 +9,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "dsExtStatusDestino",
+						"referenceName": "dsExtTipoPagamentoDestino",
 						"type": "DatasetReference"
 					},
 					"name": "DLSilver"
@@ -18,16 +18,16 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "tblsrcStatus",
+						"referenceName": "tblsrcTipoPagamento",
 						"type": "DatasetReference"
 					},
-					"name": "srcDestino"
+					"name": "sink1"
 				}
 			],
 			"transformations": [],
 			"scriptLines": [
 				"source(output(",
-				"          Status as string",
+				"          {Tipo de Pagamento} as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
@@ -48,8 +48,8 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
-				"          Nome = Status",
-				"     )) ~> srcDestino"
+				"          Nome = {Tipo de Pagamento}",
+				"     )) ~> sink1"
 			]
 		}
 	}
