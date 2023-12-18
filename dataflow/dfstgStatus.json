@@ -13,10 +13,27 @@
 						"type": "DatasetReference"
 					},
 					"name": "srcStatus"
+				},
+				{
+					"dataset": {
+						"referenceName": "tblstgStatus",
+						"type": "DatasetReference"
+					},
+					"name": "stgStatus"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "Ativos"
+				},
+				{
+					"name": "NewStage"
+				},
+				{
+					"name": "ClassSource"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          Id as integer,",
@@ -25,7 +42,29 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> srcStatus"
+				"     format: 'table') ~> srcStatus",
+				"source(output(",
+				"          Id as integer,",
+				"          BK as integer,",
+				"          Nome as string,",
+				"          DataInicio as date,",
+				"          DataFim as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> stgStatus",
+				"stgStatus filter(isNull(DataFim)) ~> Ativos",
+				"Ativos select(mapColumn(",
+				"          Id_STG = Id,",
+				"          BK_STG = BK,",
+				"          Nome_STG = Nome,",
+				"          DataInicio_STG = DataInicio,",
+				"          DataFim_STG = DataFim",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> NewStage",
+				"srcStatus sort(asc(Id, true)) ~> ClassSource"
 			]
 		}
 	}
