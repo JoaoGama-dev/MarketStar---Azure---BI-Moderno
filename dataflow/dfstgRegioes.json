@@ -150,7 +150,7 @@
 				"          BK = Id_SRC,",
 				"          DDD = DDD_SRC,",
 				"          Cidade = Cidade_SRC,",
-				"          Estado = Estado_STG,",
+				"          Estado = Estado_SRC,",
 				"          DataInicio = DataStartEnd",
 				"     )) ~> StageNew",
 				"NovosRegistros@Update sink(allowSchemaDrift: true,",
