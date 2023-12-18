@@ -92,7 +92,7 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> JoinLeft",
-				"JoinLeft derive(DataStartEnd = toDate(currentUTC())) ~> DatIni",
+				"JoinLeft derive(DataStartEnd = toDate(currentTimestamp())) ~> DatIni",
 				"DatIni split(isNull(BK_STG),",
 				"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
 				"     disjoint: false) ~> NovoRegistro@(NovoRegistro, Update, Inativar)"
