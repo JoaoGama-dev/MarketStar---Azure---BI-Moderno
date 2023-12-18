@@ -110,7 +110,7 @@
 				"JoinLeft derive(DataStarEnd = currentDate()) ~> DataIni",
 				"DataIni split(isNull(BK_STG),",
 				"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
-				"     disjoint: false) ~> split1@(NovoRegistro, Update)",
+				"     disjoint: true) ~> split1@(NovoRegistro, Update)",
 				"split1@NovoRegistro sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
