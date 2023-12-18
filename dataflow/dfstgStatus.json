@@ -68,7 +68,7 @@
 					"name": "NovosRegistros"
 				},
 				{
-					"name": "AlterarAtualizarSe"
+					"name": "AtualizarSe"
 				}
 			],
 			"scriptLines": [
@@ -118,7 +118,7 @@
 				"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
 				"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
 				"     disjoint: true) ~> NovosRegistros@(novoRegistro, Update, Inativo)",
-				"NovosRegistros@Inativo filter((Id_SRC == BK_STG) && (Nome_SRC != Nome_STG)) ~> AlterarAtualizarSe",
+				"NovosRegistros@Inativo alterRow(updateIf((Id_SRC == BK_STG) && (Nome_SRC != Nome_STG))) ~> AtualizarSe",
 				"NovosRegistros@novoRegistro sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -163,7 +163,7 @@
 				"          Nome = Nome_SRC,",
 				"          DataInicio = DataStartEnd",
 				"     )) ~> StageUpdate",
-				"AlterarAtualizarSe sink(allowSchemaDrift: true,",
+				"AtualizarSe sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          Id as integer,",
