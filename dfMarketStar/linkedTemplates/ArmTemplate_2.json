@@ -556,7 +556,8 @@
 									"srcAfiliados": {},
 									"stgAfiliados": {},
 									"StageNew": {},
-									"StageUpdate": {}
+									"StageUpdate": {},
+									"StageInativar": {}
 								}
 							},
 							"staging": {},
