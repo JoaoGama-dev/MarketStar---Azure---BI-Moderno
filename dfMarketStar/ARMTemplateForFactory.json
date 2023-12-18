@@ -368,6 +368,456 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pplsrcAfiliados')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfsrcAfiliados",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfsrcAfiliados",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DLSilver": {},
+									"srcDestino": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfsrcAfiliados')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplsrcCursos')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfsrcCursos",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfsrcCursos",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DLSilver": {},
+									"srcDestino": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfsrcCursos')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplsrcProdutor')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfsrcProdutor",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfsrcProdutor",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DLSilver": {},
+									"srcDestino": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfsrcProdutor')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplsrcRegioes')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfsrcRegioes",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfsrcRegioes",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DLSilver": {},
+									"srcDestino": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfsrcRegioes')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplsrcStatus')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfsrcStatus",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfsrcStatus",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DLSilver": {},
+									"srcDestino": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfsrcStatus')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplsrcTipoPagamento')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfsrcTipoPagamento",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfsrcTipoPagamento",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DLSilver": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfsrcTipoPagamento')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplstgAfiliados')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfStgAfiliados",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfstgAfiliados",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"srcAfiliados": {},
+									"stgAfiliados": {},
+									"StageNew": {},
+									"StageUpdate": {},
+									"StageInativar": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfstgAfiliados')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplstgCursos')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfstgCursos",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfstgCursos",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"srcCursos": {},
+									"stgCursos": {},
+									"StageNew": {},
+									"StageUpdate": {},
+									"StageInativar": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfstgCursos')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplstgProdutor')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfstgProdutor",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfstgProdutor",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"srcProdutor": {},
+									"stgProdutor": {},
+									"StageNew": {},
+									"StageUpdate": {},
+									"StageInativar": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfstgProdutor')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dsExtAfiliadosDestino')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -981,6 +1431,301 @@
 				],
 				"typeProperties": {
 					"schema": "src",
+					"table": "TipoPagamento"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/lsservmarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblstgAfiliados')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "lsservmarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					},
+					{
+						"name": "DataInicio",
+						"type": "date"
+					},
+					{
+						"name": "DataFim",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
+					"table": "Afiliados"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/lsservmarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblstgCursos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "lsservmarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CodProdOrigine",
+						"type": "varchar"
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					},
+					{
+						"name": "DataInicio",
+						"type": "date"
+					},
+					{
+						"name": "DataFim",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
+					"table": "Cursos"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/lsservmarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblstgProdutor')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "lsservmarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					},
+					{
+						"name": "DataInicio",
+						"type": "date"
+					},
+					{
+						"name": "DataFim",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
+					"table": "Produtor"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/lsservmarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblstgRegioes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "lsservmarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DDD",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Cidade",
+						"type": "varchar"
+					},
+					{
+						"name": "Estado",
+						"type": "varchar"
+					},
+					{
+						"name": "DataInicio",
+						"type": "date"
+					},
+					{
+						"name": "DataFim",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
+					"table": "Regioes"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/lsservmarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblstgStatus')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "lsservmarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					},
+					{
+						"name": "DataInicio",
+						"type": "date"
+					},
+					{
+						"name": "DataFim",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
+					"table": "Status"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/lsservmarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblstgTipoPagamento')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "lsservmarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					},
+					{
+						"name": "DataInicio",
+						"type": "date"
+					},
+					{
+						"name": "DataFim",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
 					"table": "TipoPagamento"
 				}
 			},
@@ -1638,55 +2383,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pplsrcAfiliados')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dfsrcAfiliados",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfsrcAfiliados",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DLSilver": {},
-									"srcDestino": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfsrcAfiliados')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/dfsrcCursos')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1752,55 +2448,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pplsrcCursos')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dfsrcCursos",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfsrcCursos",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DLSilver": {},
-									"srcDestino": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfsrcCursos')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/dfsrcProdutor')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1860,55 +2507,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/dsExtProdutorDestino')]",
 				"[concat(variables('factoryId'), '/datasets/tblsrcProdutor')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pplsrcProdutor')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dfsrcProdutor",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfsrcProdutor",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DLSilver": {},
-									"srcDestino": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfsrcProdutor')]"
 			]
 		},
 		{
@@ -1980,55 +2578,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pplsrcRegioes')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dfsrcRegioes",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfsrcRegioes",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DLSilver": {},
-									"srcDestino": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfsrcRegioes')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/dfsrcStatus')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -2091,55 +2640,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pplsrcStatus')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dfsrcStatus",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfsrcStatus",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DLSilver": {},
-									"srcDestino": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfsrcStatus')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/dfsrcTipoPagamento')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -2199,350 +2699,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/dsExtTipoPagamentoDestino')]",
 				"[concat(variables('factoryId'), '/datasets/tblsrcTipoPagamento')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pplsrcTipoPagamento')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dfsrcTipoPagamento",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfsrcTipoPagamento",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DLSilver": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfsrcTipoPagamento')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tblstgAfiliados')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "lsservmarketstar",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "BK",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Nome",
-						"type": "varchar"
-					},
-					{
-						"name": "DataInicio",
-						"type": "date"
-					},
-					{
-						"name": "DataFim",
-						"type": "date"
-					}
-				],
-				"typeProperties": {
-					"schema": "stg",
-					"table": "Afiliados"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/lsservmarketstar')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tblstgCursos')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "lsservmarketstar",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "BK",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "CodProdOrigine",
-						"type": "varchar"
-					},
-					{
-						"name": "Nome",
-						"type": "varchar"
-					},
-					{
-						"name": "DataInicio",
-						"type": "date"
-					},
-					{
-						"name": "DataFim",
-						"type": "date"
-					}
-				],
-				"typeProperties": {
-					"schema": "stg",
-					"table": "Cursos"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/lsservmarketstar')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tblstgProdutor')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "lsservmarketstar",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "BK",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Nome",
-						"type": "varchar"
-					},
-					{
-						"name": "DataInicio",
-						"type": "date"
-					},
-					{
-						"name": "DataFim",
-						"type": "date"
-					}
-				],
-				"typeProperties": {
-					"schema": "stg",
-					"table": "Produtor"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/lsservmarketstar')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tblstgRegioes')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "lsservmarketstar",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "BK",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DDD",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Cidade",
-						"type": "varchar"
-					},
-					{
-						"name": "Estado",
-						"type": "varchar"
-					},
-					{
-						"name": "DataInicio",
-						"type": "date"
-					},
-					{
-						"name": "DataFim",
-						"type": "date"
-					}
-				],
-				"typeProperties": {
-					"schema": "stg",
-					"table": "Regioes"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/lsservmarketstar')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tblstgStatus')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "lsservmarketstar",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "BK",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Nome",
-						"type": "varchar"
-					},
-					{
-						"name": "DataInicio",
-						"type": "date"
-					},
-					{
-						"name": "DataFim",
-						"type": "date"
-					}
-				],
-				"typeProperties": {
-					"schema": "stg",
-					"table": "Status"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/lsservmarketstar')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tblstgTipoPagamento')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "lsservmarketstar",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "BK",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Nome",
-						"type": "varchar"
-					},
-					{
-						"name": "DataInicio",
-						"type": "date"
-					},
-					{
-						"name": "DataFim",
-						"type": "date"
-					}
-				],
-				"typeProperties": {
-					"schema": "stg",
-					"table": "TipoPagamento"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/lsservmarketstar')]"
 			]
 		},
 		{
@@ -2671,7 +2827,7 @@
 						"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
 						"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
 						"     disjoint: true) ~> split1@(NovoRegistro, Update, Inativar)",
-						"split1@Inativar alterRow(updateIf((Id_SRC == BK_STG) && (Nome_SRC != Nome_STG))) ~> AlterarAtualizarSe",
+						"split1@Inativar alterRow(updateIf((Id_SRC==BK_STG)&&(Nome_SRC!=Nome_STG))) ~> AlterarAtualizarSe",
 						"split1@NovoRegistro sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -2747,58 +2903,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/tblsrcAfiliados')]",
 				"[concat(variables('factoryId'), '/datasets/tblstgAfiliados')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pplstgAfiliados')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dfStgAfiliados",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfstgAfiliados",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"srcAfiliados": {},
-									"stgAfiliados": {},
-									"StageNew": {},
-									"StageUpdate": {},
-									"StageInativar": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfstgAfiliados')]"
 			]
 		},
 		{
@@ -2927,7 +3031,7 @@
 						"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
 						"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
 						"     disjoint: true) ~> NovoRegistro@(NovoRegistro, Update, Inativar)",
-						"NovoRegistro@Inativar alterRow(updateIf((Id_SRC == BK_STG) && (Nome_SRC != Nome_STG))) ~> AlterarAtualizarSe",
+						"NovoRegistro@Inativar alterRow(updateIf((Id_SRC==BK_STG)&&(Nome_SRC!=Nome_STG))) ~> AlterarAtualizarSe",
 						"NovoRegistro@NovoRegistro sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -3012,13 +3116,433 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pplstgCursos')]",
+			"name": "[concat(parameters('factoryName'), '/dfstgProdutor')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "tblsrcProdutor",
+								"type": "DatasetReference"
+							},
+							"name": "srcProdutor"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgProdutor",
+								"type": "DatasetReference"
+							},
+							"name": "stgProdutor"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tblstgProdutor",
+								"type": "DatasetReference"
+							},
+							"name": "StageNew"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgProdutor",
+								"type": "DatasetReference"
+							},
+							"name": "StageUpdate"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgProdutor",
+								"type": "DatasetReference"
+							},
+							"name": "StageInativar"
+						}
+					],
+					"transformations": [
+						{
+							"name": "ClassSource"
+						},
+						{
+							"name": "Ativos"
+						},
+						{
+							"name": "NewSource"
+						},
+						{
+							"name": "NewStage"
+						},
+						{
+							"name": "JoinLeft"
+						},
+						{
+							"name": "datIni"
+						},
+						{
+							"name": "NovosRegistros"
+						},
+						{
+							"name": "AlterarAtualizarSe"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Id as integer,",
+						"          Nome as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcProdutor",
+						"source(output(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> stgProdutor",
+						"srcProdutor sort(asc(Id, true)) ~> ClassSource",
+						"stgProdutor filter(isNull(DataFim)) ~> Ativos",
+						"ClassSource select(mapColumn(",
+						"          Id_SRC = Id,",
+						"          Nome_SRC = Nome",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> NewSource",
+						"Ativos select(mapColumn(",
+						"          Id_STG = Id,",
+						"          BK_STG = BK,",
+						"          Nome_STG = Nome,",
+						"          DataInicio_STG = DataInicio,",
+						"          DataFim_STG = DataFim",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> NewStage",
+						"NewSource, NewStage join(Id_SRC == BK_STG,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> JoinLeft",
+						"JoinLeft derive(DataStartEnd = toDate(currentTimestamp())) ~> datIni",
+						"datIni split(isNull(BK_STG),",
+						"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
+						"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
+						"     disjoint: true) ~> NovosRegistros@(Novoregistro, Update, Inativo)",
+						"NovosRegistros@Inativo alterRow(updateIf((Id_SRC==BK_STG)&&(Nome_SRC!=Nome_STG))) ~> AlterarAtualizarSe",
+						"NovosRegistros@Novoregistro sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK = Id_SRC,",
+						"          Nome = Nome_SRC,",
+						"          DataInicio = DataStartEnd",
+						"     )) ~> StageNew",
+						"NovosRegistros@Update sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK = Id_SRC,",
+						"          Nome = Nome_SRC,",
+						"          DataInicio = DataStartEnd",
+						"     )) ~> StageUpdate",
+						"AlterarAtualizarSe sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:true,",
+						"     upsertable:false,",
+						"     keys:['Id'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          Id = Id_STG,",
+						"          BK = BK_STG,",
+						"          Nome = Nome_STG,",
+						"          DataInicio = DataInicio_STG,",
+						"          DataFim = DataStartEnd",
+						"     )) ~> StageInativar"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/tblsrcProdutor')]",
+				"[concat(variables('factoryId'), '/datasets/tblstgProdutor')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dfstgRegioes')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "tblsrcRegioes",
+								"type": "DatasetReference"
+							},
+							"name": "srcRegioes"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgRegioes",
+								"type": "DatasetReference"
+							},
+							"name": "stgRegioes"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tblstgRegioes",
+								"type": "DatasetReference"
+							},
+							"name": "StageNew"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgRegioes",
+								"type": "DatasetReference"
+							},
+							"name": "StageUpdate"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgRegioes",
+								"type": "DatasetReference"
+							},
+							"name": "StageInativar"
+						}
+					],
+					"transformations": [
+						{
+							"name": "ClassSource"
+						},
+						{
+							"name": "Ativos"
+						},
+						{
+							"name": "NewStage"
+						},
+						{
+							"name": "NewSource"
+						},
+						{
+							"name": "JoinLeft"
+						},
+						{
+							"name": "DatIni"
+						},
+						{
+							"name": "NovosRegistros"
+						},
+						{
+							"name": "AlterarAtualizarSe"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Id as integer,",
+						"          DDD as integer,",
+						"          Cidade as string,",
+						"          Estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcRegioes",
+						"source(output(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          DDD as integer,",
+						"          Cidade as string,",
+						"          Estado as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> stgRegioes",
+						"srcRegioes sort(asc(Id, true)) ~> ClassSource",
+						"stgRegioes filter(isNull(DataFim)) ~> Ativos",
+						"Ativos select(mapColumn(",
+						"          Id_STG = Id,",
+						"          BK_STG = BK,",
+						"          DDD_STG = DDD,",
+						"          Cidade_STG = Cidade,",
+						"          Estado_STG = Estado,",
+						"          DataInicio_STG = DataInicio,",
+						"          DataFim_STG = DataFim",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> NewStage",
+						"ClassSource select(mapColumn(",
+						"          Id_SRC = Id,",
+						"          DDD_SRC = DDD,",
+						"          Cidade_SRC = Cidade,",
+						"          Estado_SRC = Estado",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> NewSource",
+						"NewSource, NewStage join(Id_SRC == BK_STG,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> JoinLeft",
+						"JoinLeft derive(DataStartEnd = toDate(currentTimestamp())) ~> DatIni",
+						"DatIni split(isNull(BK_STG),",
+						"     (Id_SRC == BK_STG) && (Cidade_SRC != Cidade_STG) && (Estado_SRC != Estado_STG),",
+						"     (Id_SRC == BK_STG) && (Cidade_SRC != Cidade_STG) && (Estado_SRC != Estado_STG),",
+						"     disjoint: true) ~> NovosRegistros@(NovoRegistro, Update, Inativos)",
+						"NovosRegistros@Inativos alterRow(updateIf((Id_SRC == BK_STG) && (Cidade_SRC != Cidade_STG) && (Estado_SRC != Estado_STG))) ~> AlterarAtualizarSe",
+						"NovosRegistros@NovoRegistro sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          DDD as integer,",
+						"          Cidade as string,",
+						"          Estado as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK = Id_SRC,",
+						"          DDD = DDD_SRC,",
+						"          Cidade = Cidade_SRC,",
+						"          Estado = Estado_SRC,",
+						"          DataInicio = DataStartEnd",
+						"     )) ~> StageNew",
+						"NovosRegistros@Update sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          DDD as integer,",
+						"          Cidade as string,",
+						"          Estado as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK = Id_SRC,",
+						"          DDD = DDD_SRC,",
+						"          Cidade = Cidade_SRC,",
+						"          Estado = Estado_SRC,",
+						"          DataInicio = DataStartEnd",
+						"     )) ~> StageUpdate",
+						"AlterarAtualizarSe sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          DDD as integer,",
+						"          Cidade as string,",
+						"          Estado as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:true,",
+						"     upsertable:false,",
+						"     keys:['Id'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          Id = Id_STG,",
+						"          BK = BK_STG,",
+						"          DDD = DDD_STG,",
+						"          Cidade = Cidade_STG,",
+						"          Estado = Estado_STG,",
+						"          DataInicio = DataInicio_STG,",
+						"          DataFim = DataStartEnd",
+						"     )) ~> StageInativar"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/tblsrcRegioes')]",
+				"[concat(variables('factoryId'), '/datasets/tblstgRegioes')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplstgRegioes')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "dfstgCursos",
+						"name": "dfstgRegioes",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -3031,12 +3555,12 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "dfstgCursos",
+								"referenceName": "dfstgRegioes",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"srcCursos": {},
-									"stgCursos": {},
+									"srcRegioes": {},
+									"stgRegioes": {},
 									"StageNew": {},
 									"StageUpdate": {},
 									"StageInativar": {}
@@ -3060,7 +3584,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfstgCursos')]"
+				"[concat(variables('factoryId'), '/dataflows/dfstgRegioes')]"
 			]
 		}
 	]

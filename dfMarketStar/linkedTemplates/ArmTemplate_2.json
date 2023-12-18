@@ -13,6 +13,270 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/dfstgRegioes')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "tblsrcRegioes",
+								"type": "DatasetReference"
+							},
+							"name": "srcRegioes"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgRegioes",
+								"type": "DatasetReference"
+							},
+							"name": "stgRegioes"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tblstgRegioes",
+								"type": "DatasetReference"
+							},
+							"name": "StageNew"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgRegioes",
+								"type": "DatasetReference"
+							},
+							"name": "StageUpdate"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgRegioes",
+								"type": "DatasetReference"
+							},
+							"name": "StageInativar"
+						}
+					],
+					"transformations": [
+						{
+							"name": "ClassSource"
+						},
+						{
+							"name": "Ativos"
+						},
+						{
+							"name": "NewStage"
+						},
+						{
+							"name": "NewSource"
+						},
+						{
+							"name": "JoinLeft"
+						},
+						{
+							"name": "DatIni"
+						},
+						{
+							"name": "NovosRegistros"
+						},
+						{
+							"name": "AlterarAtualizarSe"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Id as integer,",
+						"          DDD as integer,",
+						"          Cidade as string,",
+						"          Estado as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcRegioes",
+						"source(output(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          DDD as integer,",
+						"          Cidade as string,",
+						"          Estado as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> stgRegioes",
+						"srcRegioes sort(asc(Id, true)) ~> ClassSource",
+						"stgRegioes filter(isNull(DataFim)) ~> Ativos",
+						"Ativos select(mapColumn(",
+						"          Id_STG = Id,",
+						"          BK_STG = BK,",
+						"          DDD_STG = DDD,",
+						"          Cidade_STG = Cidade,",
+						"          Estado_STG = Estado,",
+						"          DataInicio_STG = DataInicio,",
+						"          DataFim_STG = DataFim",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> NewStage",
+						"ClassSource select(mapColumn(",
+						"          Id_SRC = Id,",
+						"          DDD_SRC = DDD,",
+						"          Cidade_SRC = Cidade,",
+						"          Estado_SRC = Estado",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> NewSource",
+						"NewSource, NewStage join(Id_SRC == BK_STG,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> JoinLeft",
+						"JoinLeft derive(DataStartEnd = toDate(currentTimestamp())) ~> DatIni",
+						"DatIni split(isNull(BK_STG),",
+						"     (Id_SRC == BK_STG) && (Cidade_SRC != Cidade_STG) && (Estado_SRC != Estado_STG),",
+						"     (Id_SRC == BK_STG) && (Cidade_SRC != Cidade_STG) && (Estado_SRC != Estado_STG),",
+						"     disjoint: true) ~> NovosRegistros@(NovoRegistro, Update, Inativos)",
+						"NovosRegistros@Inativos alterRow(updateIf((Id_SRC == BK_STG) && (Cidade_SRC != Cidade_STG) && (Estado_SRC != Estado_STG))) ~> AlterarAtualizarSe",
+						"NovosRegistros@NovoRegistro sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          DDD as integer,",
+						"          Cidade as string,",
+						"          Estado as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK = Id_SRC,",
+						"          DDD = DDD_SRC,",
+						"          Cidade = Cidade_SRC,",
+						"          Estado = Estado_SRC,",
+						"          DataInicio = DataStartEnd",
+						"     )) ~> StageNew",
+						"NovosRegistros@Update sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          DDD as integer,",
+						"          Cidade as string,",
+						"          Estado as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK = Id_SRC,",
+						"          DDD = DDD_SRC,",
+						"          Cidade = Cidade_SRC,",
+						"          Estado = Estado_SRC,",
+						"          DataInicio = DataStartEnd",
+						"     )) ~> StageUpdate",
+						"AlterarAtualizarSe sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          DDD as integer,",
+						"          Cidade as string,",
+						"          Estado as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:true,",
+						"     upsertable:false,",
+						"     keys:['Id'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          Id = Id_STG,",
+						"          BK = BK_STG,",
+						"          DDD = DDD_STG,",
+						"          Cidade = Cidade_STG,",
+						"          Estado = Estado_STG,",
+						"          DataInicio = DataInicio_STG,",
+						"          DataFim = DataStartEnd",
+						"     )) ~> StageInativar"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplExtAfiliados')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfExtAfiliados",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfExtAfiliados",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"srcVendas": {},
+									"AfiliadoSilver": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "1 - Extraction"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pplExtCursos')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -675,6 +939,108 @@
 				"annotations": []
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplstgProdutor')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfstgProdutor",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfstgProdutor",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"srcProdutor": {},
+									"stgProdutor": {},
+									"StageNew": {},
+									"StageUpdate": {},
+									"StageInativar": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplstgRegioes')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfstgRegioes",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfstgRegioes",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"srcRegioes": {},
+									"stgRegioes": {},
+									"StageNew": {},
+									"StageUpdate": {},
+									"StageInativar": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfstgRegioes')]"
+			]
 		}
 	]
 }
