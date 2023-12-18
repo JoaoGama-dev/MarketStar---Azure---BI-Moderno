@@ -1,0 +1,32 @@
+{
+	"name": "dfstgStatus",
+	"properties": {
+		"folder": {
+			"name": "2 - Stage"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "tblsrcStatus",
+						"type": "DatasetReference"
+					},
+					"name": "srcStatus"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          Id as integer,",
+				"          Nome as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcStatus"
+			]
+		}
+	}
+}
