@@ -1,0 +1,102 @@
+{
+	"name": "dfstgCursos",
+	"properties": {
+		"folder": {
+			"name": "2 - Stage"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "tblsrcCursos",
+						"type": "DatasetReference"
+					},
+					"name": "srcCursos"
+				},
+				{
+					"dataset": {
+						"referenceName": "tblstgCursos",
+						"type": "DatasetReference"
+					},
+					"name": "stgCursos"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "classSouce"
+				},
+				{
+					"name": "NewSource"
+				},
+				{
+					"name": "ativos"
+				},
+				{
+					"name": "NewStage"
+				},
+				{
+					"name": "JoinLeft"
+				},
+				{
+					"name": "DatIni"
+				},
+				{
+					"name": "NovoRegistro"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Id as integer,",
+				"          BK as string,",
+				"          Nome as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcCursos",
+				"source(output(",
+				"          Id as integer,",
+				"          BK as integer,",
+				"          CodProdOrigine as string,",
+				"          Nome as string,",
+				"          DataInicio as date,",
+				"          DataFim as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> stgCursos",
+				"srcCursos sort(asc(Id, true)) ~> classSouce",
+				"classSouce select(mapColumn(",
+				"          Id_SRC = Id,",
+				"          BK_SRC = BK,",
+				"          Nome_SRC = Nome",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> NewSource",
+				"stgCursos filter(isNull(DataFim)) ~> ativos",
+				"ativos select(mapColumn(",
+				"          Id_STG = Id,",
+				"          BK_STG = BK,",
+				"          CodProdOrigine_STG = CodProdOrigine,",
+				"          Nome_STG = Nome,",
+				"          DataInicio_STG = DataInicio,",
+				"          DataFim_STG = DataFim",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> NewStage",
+				"NewSource, NewStage join(Id_SRC == BK_STG,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinLeft",
+				"JoinLeft derive(DataStartEnd = toDate(currentUTC())) ~> DatIni",
+				"DatIni split(isNull(BK_STG),",
+				"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
+				"     disjoint: false) ~> NovoRegistro@(NovoRegistro, Update, Inativar)"
+			]
+		}
+	}
+}
