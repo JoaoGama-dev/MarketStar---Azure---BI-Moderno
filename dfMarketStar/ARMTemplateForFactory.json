@@ -2578,6 +2578,13 @@
 								"type": "DatasetReference"
 							},
 							"name": "StageNew"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgAfiliados",
+								"type": "DatasetReference"
+							},
+							"name": "StageUpdate"
 						}
 					],
 					"transformations": [
@@ -2651,7 +2658,8 @@
 						"     broadcast: 'auto')~> JoinLeft",
 						"JoinLeft derive(DataStarEnd = currentDate()) ~> DataIni",
 						"DataIni split(isNull(BK_STG),",
-						"     disjoint: false) ~> split1@(NovoRegistro)",
+						"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
+						"     disjoint: false) ~> split1@(NovoRegistro, Update)",
 						"split1@NovoRegistro sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -2673,7 +2681,29 @@
 						"          BK = Id_SRC,",
 						"          Nome = Nome_SRC,",
 						"          DataInicio = DataStarEnd",
-						"     )) ~> StageNew"
+						"     )) ~> StageNew",
+						"split1@Update sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK = Id_SRC,",
+						"          Nome = Nome_SRC,",
+						"          DataInicio = DataStarEnd",
+						"     )) ~> StageUpdate"
 					]
 				}
 			},
@@ -2708,7 +2738,8 @@
 								"datasetParameters": {
 									"srcAfiliados": {},
 									"stgAfiliados": {},
-									"StageNew": {}
+									"StageNew": {},
+									"StageUpdate": {}
 								}
 							},
 							"staging": {},

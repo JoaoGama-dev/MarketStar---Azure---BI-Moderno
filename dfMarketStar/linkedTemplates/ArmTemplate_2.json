@@ -555,7 +555,8 @@
 								"datasetParameters": {
 									"srcAfiliados": {},
 									"stgAfiliados": {},
-									"StageNew": {}
+									"StageNew": {},
+									"StageUpdate": {}
 								}
 							},
 							"staging": {},
