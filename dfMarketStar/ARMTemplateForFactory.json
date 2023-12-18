@@ -2800,6 +2800,216 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dfstgAfiliados')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dfstgCursos')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "tblsrcCursos",
+								"type": "DatasetReference"
+							},
+							"name": "srcCursos"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgCursos",
+								"type": "DatasetReference"
+							},
+							"name": "stgCursos"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tblstgCursos",
+								"type": "DatasetReference"
+							},
+							"name": "StageNew"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgCursos",
+								"type": "DatasetReference"
+							},
+							"name": "StageUpdate"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgCursos",
+								"type": "DatasetReference"
+							},
+							"name": "StageInativar"
+						}
+					],
+					"transformations": [
+						{
+							"name": "classSouce"
+						},
+						{
+							"name": "NewSource"
+						},
+						{
+							"name": "ativos"
+						},
+						{
+							"name": "NewStage"
+						},
+						{
+							"name": "JoinLeft"
+						},
+						{
+							"name": "DatIni"
+						},
+						{
+							"name": "NovoRegistro"
+						},
+						{
+							"name": "AlterarAtualizarSe"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Id as integer,",
+						"          BK as string,",
+						"          Nome as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcCursos",
+						"source(output(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          CodProdOrigine as string,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> stgCursos",
+						"srcCursos sort(asc(Id, true)) ~> classSouce",
+						"classSouce select(mapColumn(",
+						"          Id_SRC = Id,",
+						"          BK_SRC = BK,",
+						"          Nome_SRC = Nome",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> NewSource",
+						"stgCursos filter(isNull(DataFim)) ~> ativos",
+						"ativos select(mapColumn(",
+						"          Id_STG = Id,",
+						"          BK_STG = BK,",
+						"          CodProdOrigine_STG = CodProdOrigine,",
+						"          Nome_STG = Nome,",
+						"          DataInicio_STG = DataInicio,",
+						"          DataFim_STG = DataFim",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> NewStage",
+						"NewSource, NewStage join(Id_SRC == BK_STG,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> JoinLeft",
+						"JoinLeft derive(DataStartEnd = toDate(currentTimestamp())) ~> DatIni",
+						"DatIni split(isNull(BK_STG),",
+						"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
+						"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
+						"     disjoint: true) ~> NovoRegistro@(NovoRegistro, Update, Inativar)",
+						"NovoRegistro@Inativar alterRow(updateIf((Id_SRC == BK_STG) && (Nome_SRC != Nome_STG))) ~> AlterarAtualizarSe",
+						"NovoRegistro@NovoRegistro sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          CodProdOrigine as string,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK = Id_SRC,",
+						"          CodProdOrigine = BK_SRC,",
+						"          Nome = Nome_SRC,",
+						"          DataInicio = DataStartEnd",
+						"     )) ~> StageNew",
+						"NovoRegistro@Update sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          CodProdOrigine as string,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK = Id_SRC,",
+						"          CodProdOrigine = BK_SRC,",
+						"          Nome = Nome_SRC,",
+						"          DataInicio = DataStartEnd",
+						"     )) ~> StageUpdate",
+						"AlterarAtualizarSe sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          CodProdOrigine as string,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:true,",
+						"     upsertable:false,",
+						"     keys:['Id'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          Id = Id_STG,",
+						"          BK = BK_STG,",
+						"          CodProdOrigine = CodProdOrigine_STG,",
+						"          Nome = Nome_STG,",
+						"          DataInicio = DataInicio_STG,",
+						"          DataFim = DataStartEnd",
+						"     )) ~> StageInativar"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/tblsrcCursos')]",
+				"[concat(variables('factoryId'), '/datasets/tblstgCursos')]"
+			]
 		}
 	]
 }
