@@ -36,6 +36,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "StageUpdate"
+				},
+				{
+					"dataset": {
+						"referenceName": "tblstgStatus",
+						"type": "DatasetReference"
+					},
+					"name": "StageInativar"
 				}
 			],
 			"transformations": [
@@ -59,6 +66,9 @@
 				},
 				{
 					"name": "NovosRegistros"
+				},
+				{
+					"name": "AlterarAtualizarSe"
 				}
 			],
 			"scriptLines": [
@@ -108,6 +118,7 @@
 				"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
 				"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
 				"     disjoint: true) ~> NovosRegistros@(novoRegistro, Update, Inativo)",
+				"NovosRegistros@Inativo filter((Id_SRC == BK_STG) && (Nome_SRC != Nome_STG)) ~> AlterarAtualizarSe",
 				"NovosRegistros@novoRegistro sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -151,7 +162,32 @@
 				"          BK = Id_SRC,",
 				"          Nome = Nome_SRC,",
 				"          DataInicio = DataStartEnd",
-				"     )) ~> StageUpdate"
+				"     )) ~> StageUpdate",
+				"AlterarAtualizarSe sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Id as integer,",
+				"          BK as integer,",
+				"          Nome as string,",
+				"          DataInicio as date,",
+				"          DataFim as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:true,",
+				"     upsertable:false,",
+				"     keys:['Id'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Id = Id_STG,",
+				"          BK = BK_STG,",
+				"          Nome = Nome_STG,",
+				"          DataInicio = DataInicio_STG,",
+				"          DataFim = DataStartEnd",
+				"     )) ~> StageInativar"
 			]
 		}
 	}
