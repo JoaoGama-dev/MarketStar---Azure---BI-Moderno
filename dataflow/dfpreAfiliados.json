@@ -1,0 +1,40 @@
+{
+	"name": "dfpreAfiliados",
+	"properties": {
+		"folder": {
+			"name": "3 - Presentation"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "tblstgAfiliados",
+						"type": "DatasetReference"
+					},
+					"name": "Source"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "Ativos"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Id as integer,",
+				"          BK as integer,",
+				"          Nome as string,",
+				"          DataInicio as date,",
+				"          DataFim as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Source",
+				"Source filter(isNull(DataFim)) ~> Ativos"
+			]
+		}
+	}
+}
