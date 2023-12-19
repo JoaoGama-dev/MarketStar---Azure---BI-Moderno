@@ -523,6 +523,10 @@
 						"type": "varchar"
 					},
 					{
+						"name": "CodProdOrigine",
+						"type": "varchar"
+					},
+					{
 						"name": "Nome",
 						"type": "varchar"
 					}
