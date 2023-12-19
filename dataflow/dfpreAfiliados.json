@@ -15,7 +15,15 @@
 					"name": "Source"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "tblpreAfiliados",
+						"type": "DatasetReference"
+					},
+					"name": "PreAfiliados"
+				}
+			],
 			"transformations": [
 				{
 					"name": "Ativos"
@@ -33,7 +41,27 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> Source",
-				"Source filter(isNull(DataFim)) ~> Ativos"
+				"Source filter(isNull(DataFim)) ~> Ativos",
+				"Ativos sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          SK as integer,",
+				"          BK as integer,",
+				"          Nome as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          BK,",
+				"          Nome",
+				"     )) ~> PreAfiliados"
 			]
 		}
 	}
