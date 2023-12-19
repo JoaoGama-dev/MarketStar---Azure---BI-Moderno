@@ -1040,45 +1040,58 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dfsrcAfiliados')]",
+			"name": "[concat(parameters('factoryName'), '/dfpreCursos')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"folder": {
-					"name": "2 - Stage"
+					"name": "3 - Presentation"
 				},
 				"type": "MappingDataFlow",
 				"typeProperties": {
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "dsExtAfiliadosDestino",
+								"referenceName": "tblstgCursos",
 								"type": "DatasetReference"
 							},
-							"name": "DLSilver"
+							"name": "Source"
 						}
 					],
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "tblsrcAfiliados",
+								"referenceName": "tblpreCursos",
 								"type": "DatasetReference"
 							},
-							"name": "srcDestino"
+							"name": "preCursos"
 						}
 					],
-					"transformations": [],
+					"transformations": [
+						{
+							"name": "ativos"
+						}
+					],
 					"scriptLines": [
 						"source(output(",
-						"          Afiliado as string",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          CodProdOrigine as string,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> DLSilver",
-						"DLSilver sink(allowSchemaDrift: true,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> Source",
+						"Source filter(isNull(DataFim)) ~> ativos",
+						"ativos sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          Id as integer,",
+						"          SK as integer,",
+						"          BK as string,",
+						"          CodProdOrigine as string,",
 						"          Nome as string",
 						"     ),",
 						"     deletable:false,",
@@ -1091,55 +1104,68 @@
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError',",
 						"     mapColumn(",
-						"          Nome = Afiliado",
-						"     )) ~> srcDestino"
+						"          BK,",
+						"          CodProdOrigine,",
+						"          Nome",
+						"     )) ~> preCursos"
 					]
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/tblstgCursos')]"
+			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dfsrcCursos')]",
+			"name": "[concat(parameters('factoryName'), '/dfpreProdutor')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"folder": {
-					"name": "2 - Stage"
+					"name": "3 - Presentation"
 				},
 				"type": "MappingDataFlow",
 				"typeProperties": {
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "dsExtCursosDestino",
+								"referenceName": "tblstgProdutor",
 								"type": "DatasetReference"
 							},
-							"name": "DLSilver"
+							"name": "Source"
 						}
 					],
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "tblsrcCursos",
+								"referenceName": "tblpreProdutor",
 								"type": "DatasetReference"
 							},
-							"name": "srcDestino"
+							"name": "preProdutor"
 						}
 					],
-					"transformations": [],
+					"transformations": [
+						{
+							"name": "ativos"
+						}
+					],
 					"scriptLines": [
 						"source(output(",
-						"          Cod as string,",
-						"          {Nome Novo} as string",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> DLSilver",
-						"DLSilver sink(allowSchemaDrift: true,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> Source",
+						"Source filter(isNull(DataFim)) ~> ativos",
+						"ativos sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          Id as integer,",
-						"          BK as string,",
+						"          SK as integer,",
+						"          BK as integer,",
 						"          Nome as string",
 						"     ),",
 						"     deletable:false,",
@@ -1152,13 +1178,15 @@
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError',",
 						"     mapColumn(",
-						"          BK = Cod,",
-						"          Nome = {Nome Novo}",
-						"     )) ~> srcDestino"
+						"          BK,",
+						"          Nome",
+						"     )) ~> preProdutor"
 					]
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/tblstgProdutor')]"
+			]
 		}
 	]
 }
