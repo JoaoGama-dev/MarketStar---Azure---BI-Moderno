@@ -62,7 +62,8 @@
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
 				"          BK,",
-				"          Nome = CodProdOrigine",
+				"          CodProdOrigine,",
+				"          Nome",
 				"     )) ~> preCursos"
 			]
 		}
