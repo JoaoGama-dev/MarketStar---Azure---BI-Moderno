@@ -351,7 +351,7 @@
 						"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
 						"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
 						"     disjoint: true) ~> NovosRegistros@(novoRegistro, Update, Inativo)",
-						"NovosRegistros@Inativo alterRow(updateIf((Id_SRC == BK_STG) && (Nome_SRC != Nome_STG))) ~> AtualizarSe",
+						"NovosRegistros@Inativo alterRow(updateIf((Id_SRC==BK_STG)&&(Nome_SRC!=Nome_STG))) ~> AtualizarSe",
 						"NovosRegistros@novoRegistro sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -410,6 +410,202 @@
 						"     updateable:true,",
 						"     upsertable:false,",
 						"     keys:['Id'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          Id = Id_STG,",
+						"          BK = BK_STG,",
+						"          Nome = Nome_STG,",
+						"          DataInicio = DataInicio_STG,",
+						"          DataFim = DataStartEnd",
+						"     )) ~> StageInativar"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dfstgTipoPagamento')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "tblsrcTipoPagamento",
+								"type": "DatasetReference"
+							},
+							"name": "srcTipoPagamento"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgTipoPagamento",
+								"type": "DatasetReference"
+							},
+							"name": "stgTipoPagamento"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tblstgTipoPagamento",
+								"type": "DatasetReference"
+							},
+							"name": "StageNew"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgTipoPagamento",
+								"type": "DatasetReference"
+							},
+							"name": "StageUpdate"
+						},
+						{
+							"dataset": {
+								"referenceName": "tblstgTipoPagamento",
+								"type": "DatasetReference"
+							},
+							"name": "StageInativar"
+						}
+					],
+					"transformations": [
+						{
+							"name": "ClassSource"
+						},
+						{
+							"name": "Ativos"
+						},
+						{
+							"name": "NewStage"
+						},
+						{
+							"name": "NewSource"
+						},
+						{
+							"name": "JoinLeft"
+						},
+						{
+							"name": "datIni"
+						},
+						{
+							"name": "NovosRegistros"
+						},
+						{
+							"name": "AtualizarSe"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Id as integer,",
+						"          Nome as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> srcTipoPagamento",
+						"source(output(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> stgTipoPagamento",
+						"srcTipoPagamento sort(asc(Id, true)) ~> ClassSource",
+						"stgTipoPagamento filter(isNull(DataFim)) ~> Ativos",
+						"Ativos select(mapColumn(",
+						"          Id_STG = Id,",
+						"          BK_STG = BK,",
+						"          Nome_STG = Nome,",
+						"          DataInicio_STG = DataInicio,",
+						"          DataFim_STG = DataFim",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> NewStage",
+						"ClassSource select(mapColumn(",
+						"          Id_SRC = Id,",
+						"          Nome_SRC = Nome",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> NewSource",
+						"NewSource, NewStage join(Id_SRC == BK_STG,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> JoinLeft",
+						"JoinLeft derive(DataStartEnd = toDate(currentTimestamp())) ~> datIni",
+						"datIni split(isNull(BK_STG),",
+						"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
+						"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
+						"     disjoint: true) ~> NovosRegistros@(NovoRegistro, Update, Inativos)",
+						"NovosRegistros@Inativos alterRow(updateIf((Id_SRC==BK_STG)&&(Nome_SRC!=Nome_STG))) ~> AtualizarSe",
+						"NovosRegistros@NovoRegistro sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK = Id_SRC,",
+						"          Nome = Nome_SRC,",
+						"          DataInicio = DataStartEnd",
+						"     )) ~> StageNew",
+						"NovosRegistros@Update sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK = Id_SRC,",
+						"          Nome = Nome_SRC,",
+						"          DataInicio = DataStartEnd",
+						"     )) ~> StageUpdate",
+						"AtualizarSe sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
@@ -1237,58 +1433,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dfstgRegioes')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pplstgStatus')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dfstgStatus",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfstgStatus",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"srcStatus": {},
-									"stgStatus": {},
-									"StageNew": {},
-									"StageUpdate": {},
-									"StageInativar": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfstgStatus')]"
 			]
 		}
 	]
